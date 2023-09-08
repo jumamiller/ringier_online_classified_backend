@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+  ringier-classified-backend-app:
+    build:
+      args:
+        user: root
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: ringier-classified-backend:latest
+    container_name: ringier-classified-backend-app
+    restart: unless-stopped
+    working_dir: /var/www/html/projects/classified_backend
+    volumes:
+      - ./:/var/www/html/projects/classified_backend
+      - ./docker-compose/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - ringier-network
+
+  ringier-classified-db:
+    image: mysql:latest
+    container_name: ringier-classified-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - ringier-network
+
+  ringier-classified-nginx:
+    image: nginx:alpine
+    container_name: ringier-classified-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html/projects/classified_backend
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - ringier-network
+
+networks:
+  ringier-network:
+    driver: bridge
