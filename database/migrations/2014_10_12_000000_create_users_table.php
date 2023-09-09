@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->enum('status',['verified','unverified'])->default('unverified');
+            $table->enum('status',['ACTIVE','INACTIVE'])->default('ACTIVE');
             $table->string('password');
             $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
             $table->rememberToken();
