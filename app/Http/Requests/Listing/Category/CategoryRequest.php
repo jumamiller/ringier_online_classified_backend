@@ -7,10 +7,8 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class CategoryRequest extends BaseRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
@@ -26,18 +24,16 @@ class CategoryRequest extends BaseRequest
     {
         //category and subcategory
         $rules =[
-            'category' => [
+            'listing.category.store' => [
                 'name' => 'required|string',
-                'slug' => 'string',
                 'description' => 'required|string',
                 'status' => 'in:ACTIVE,INACTIVE',
                 'meta_title' => 'string',
                 'meta_description' => 'string',
                 'meta_keywords' => 'string',
             ],
-            'sub_category' => [
+            'listing.sub.category.store' => [
                 'name' => 'required|string',
-                'slug' => 'string',
                 'description' => 'required|string',
                 'status' => 'in:ACTIVE,INACTIVE',
                 'meta_title' => 'string',
@@ -47,5 +43,13 @@ class CategoryRequest extends BaseRequest
             ],
         ];
         return $rules[$this->route()->getName()];
+    }
+
+    /**
+     * @return array
+     */
+    public function messages()
+    {
+        return parent::messages();
     }
 }

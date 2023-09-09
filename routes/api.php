@@ -17,6 +17,8 @@ Route::group([],function(){
         Route::group(['prefix'=>'admin'],function(){
             //profile routes
             Route::prefix('profile')->group(base_path('routes/modules/profile/profile.php'));
+            //setting routes
+            Route::prefix('setting')->group(base_path('routes/modules/setting/setting.php'));
         });
     });
 });
