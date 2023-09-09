@@ -55,4 +55,16 @@ class CommonController extends Controller
         $number = $number[0] === '0' ? ltrim($number, 0) : $number;
         return $phone_code.$number;
     }
+
+    /**
+     * @description This function is used to slugify a string
+     * @param string $str
+     * @return array|string|string[]|null
+     */
+    public function slugify(string $str): array|string|null
+    {
+        $str = strtolower(trim($str));
+        $str = preg_replace('/[^a-z0-9-]/', '-', $str);
+        return preg_replace('/-+/', "-", $str);
+    }
 }

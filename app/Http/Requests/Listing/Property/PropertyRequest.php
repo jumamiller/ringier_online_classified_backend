@@ -38,6 +38,17 @@ class PropertyRequest extends BaseRequest
                 'pool' => 'required|boolean',
                 'overview' => 'required|string',
                 'why_buy' => 'string',
+            ],
+            'property.image.store'  =>[
+                'property_id'   => 'required|string',
+                'image'         => 'required|string',
+            ],
+            'property.inquiry.store'=>[
+                'property_id'   => 'required|string',
+                'name'          => 'required|string',
+                'email'         => 'required|email',
+                'phone'         => 'required|string',
+                'message'       => 'required|string',
             ]
         ];
         return $rules[$this->route()->getName()];
