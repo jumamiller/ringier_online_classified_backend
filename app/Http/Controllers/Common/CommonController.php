@@ -22,7 +22,7 @@ class CommonController extends Controller
      */
     public function commonOperation($callback, string $message = null, array $data = null, int $status_code = 200): mixed
     {
-        // Wrap the operation in a database transaction
+        // Wrap the operation in a transaction
         return DB::transaction(function () use ($callback,$message,$data,$status_code) {
             try {
                 // Execute the provided callback function
