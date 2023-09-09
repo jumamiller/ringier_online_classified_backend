@@ -2,18 +2,10 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Base\BaseRequest;
 
-class AuthRequest extends FormRequest
+class AuthRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,8 +13,29 @@ class AuthRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        return self::getRules($this->route()->getActionMethod());
+    }
+
+    /**
+     * @description get rules
+     * @param string $method
+     * @return string[]
+     */
+    private static function getRules(string $method): array
+    {
+        $rules = [
+            'register' => [
+                'name'          => 'required|string',
+                'phone_number'  => 'required|string',
+                'email'         => 'required|email|unique:users,email',
+                'password'      => 'required|string|min:6',
+                'role'          => 'required|string|exists:roles,name'
+            ],
+            'login' => [
+                'email' => 'required|email',
+                'password' => 'required|string|min:6',
+            ],
         ];
+        return $rules[$method];
     }
 }

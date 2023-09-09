@@ -28,7 +28,7 @@ class CommonController extends Controller
                 // Execute the provided callback function
                 $result = $callback();
                 // Return the result or perform other actions
-                return $this->success($result, $message ?? 'Resource created successfully.' , $status_code, $data,[]);
+                return $this->success($result, $message ?? __('common.created') , $status_code, $data,[]);
             } catch (Exception $e) {
                 $trace = request()->has('trace') ? $e->getTrace() : [];
                 return $this->error($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $status_code, $trace);
