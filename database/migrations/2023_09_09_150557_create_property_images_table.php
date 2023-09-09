@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('property_id')->constrained();
             $table->string('image_path');
             $table->boolean('is_featured');
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('updated_by')->constrained('users');
-            $table->foreignId('deleted_by')->constrained('users');
+            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->foreignId('deleted_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
