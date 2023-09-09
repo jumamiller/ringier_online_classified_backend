@@ -31,8 +31,8 @@ class AuthRequest extends BaseRequest
                 'role'          => 'required|string|exists:roles,name'
             ],
             'login' => [
-                'email' => 'required|email',
-                'password' => 'required|string|min:6',
+                'email'     => 'required|email',
+                'password'  => 'required|string|min:6',
             ],
         ];
         return $rules[$method];
