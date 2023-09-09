@@ -28,5 +28,8 @@ class Property extends Model
         'pool',
         'overview',
         'why_buy',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 }
