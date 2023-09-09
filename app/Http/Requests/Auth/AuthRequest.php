@@ -28,6 +28,7 @@ class AuthRequest extends BaseRequest
                 'phone_number'  => 'required|string',
                 'email'         => 'required|email|unique:users,email',
                 'password'      => 'required|string|min:6',
+                'country_id'    => 'required|integer|exists:countries,id',
                 'role'          => 'required|string|exists:roles,name'
             ],
             'login' => [

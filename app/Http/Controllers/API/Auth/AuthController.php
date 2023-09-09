@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Auth;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Models\Auth\User;
+use App\Models\Country\Country;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -17,7 +18,7 @@ class AuthController extends CommonController
      * @param AuthRequest $request
      * @return mixed
      */
-    public function register(AuthRequest $request)
+    public function register(AuthRequest $request): mixed
     {
         return $this->commonOperation(function() use ($request){
             $this->authorize('create',User::class);
@@ -25,6 +26,11 @@ class AuthController extends CommonController
             $role=Role::where('name',$request->input('role'))->first();
             //validate request
             $validated=$request->validated();
+            //country code
+            $country=Country::findOrFail($validated['country_id']);
+            //get msisdn
+            $validated['phone_number']=$this->getMsisdn($validated['phone_number'],$country->code);
+            //create user
             return User::create($validated)->assignRole($role->name);
         },__('auth.register_success'),[],Response::HTTP_CREATED);
     }
@@ -33,7 +39,7 @@ class AuthController extends CommonController
      * @param AuthRequest $request
      * @return mixed
      */
-    public function login(AuthRequest $request)
+    public function login(AuthRequest $request): mixed
     {
         return $this->commonOperation(function() use ($request){
             $credentials = $request->validated();

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('status',['verified','unverified'])->default('unverified');
             $table->string('password');
+            $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
