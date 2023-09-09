@@ -9,3 +9,5 @@ RUN ``bash
 sudo docker compose exec ringier-classified-backend-app php artisan migrate
 sudo docker compose exec ringier-classified-backend-app php artisan passport:install
 ``
+### install permission
+- vendor publish
