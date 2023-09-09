@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [ // This is the guard that we will use for authenticating API requests.
+            'driver' => 'passport', // We will use the Passport driver.
+            'provider' => 'users', // We will use the users provider.
+        ],
     ],
 
     /*
