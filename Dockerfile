@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 ARG user
 ARG uid
 # Set working directory
-WORKDIR /var/www/html/Projects
+WORKDIR /var/www/html/projects/ringier
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -22,9 +22,9 @@ FROM php:8.2-fpm
 ARG user
 ARG uid
 # Set working directory
-WORKDIR /var/www/html/Projects
+WORKDIR /var/www/html/projects/ringier
 
-COPY --from=0 /var/www/html/Projects /var/www/html/Projects
+COPY --from=0 /var/www/html/projects/ringier /var/www/html/projects/ringier
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql
 # RUN docker-php-ext-install mbstring
@@ -52,12 +52,14 @@ RUN docker-php-ext-install intl
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create system user to run Composer and Artisan Commands
-RUN #useradd -G www-data,root -u $uid -d /home/$user $user
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
 # Set working directory
-WORKDIR /var/www/html/projects
+WORKDIR /var/www/html/projects/ringier
+
+RUN chown -R www-data:www-data /var/www/html/projects/ringier
 
 USER $user
 

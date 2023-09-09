@@ -3,17 +3,16 @@ services:
   ringier-classified-backend-app:
     build:
       args:
-        user: root
+        user: jakabos #replace with your user
         uid: 1000
       context: ./
       dockerfile: Dockerfile
     image: ringier-classified-backend:latest
     container_name: ringier-classified-backend-app
     restart: unless-stopped
-    working_dir: /var/www/html/projects/classified_backend
-    user: "www-data:www-data"
+    working_dir: /var/www/html/projects/ringier/classified_backend
     volumes:
-      - ./:/var/www/html/projects/classified_backend
+      - ./:/var/www/html/projects/ringier/classified_backend
       - ./docker-compose/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - ringier-network
@@ -41,7 +40,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/html/projects/classified_backend
+      - ./:/var/www/html/projects/ringier/classified_backend
       - ./docker-compose/nginx:/etc/nginx/conf.d
     networks:
       - ringier-network
