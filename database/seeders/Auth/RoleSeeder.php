@@ -21,11 +21,6 @@ class RoleSeeder extends Seeder
             'update',
             'delete'
         ];
-        //generate roles
-        $roles=[
-            'admin',
-            'user'
-        ];
         //create permissions
         foreach ($permissions as $permission){
             Permission::create([
@@ -34,22 +29,19 @@ class RoleSeeder extends Seeder
             ]);
         }
         //create roles
-        foreach ($roles as $role){
-            $role=Role::create([
-                'name'=>$role,
-                'guard_name'=>'api'
-            ]);
-            //permissions
-            $perms=Permission::all();
-            //assign permissions to roles
-            //admin(all)
-            if($role->name==='admin'){
-                $role->syncPermissions($perms);
-            }
-            //user(read)
-            if($role->name==='user'){
-                $role->syncPermissions($perms->where('name','read'));
-            }
-        }
+        $adminRole=Role::create([
+            'name'=>'admin',
+            'guard_name'=>'api'
+        ]);
+        $userRole=Role::create([
+            'name'=>'user',
+            'guard_name'=>'api'
+        ]);
+        //assign permissions to roles
+        $adminRole->givePermissionTo(Permission::all());
+        $userRole->givePermissionTo([
+            'read'
+        ]);
+
     }
 }

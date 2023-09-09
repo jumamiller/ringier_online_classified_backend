@@ -38,21 +38,21 @@ class CommonController extends Controller
 
     /**
      * @param string $number
-     * @param $country_code
+     * @param $phone_code
      * @return string
      */
-    public function getMsisdn(string $number,$country_code): string
+    public function getMsisdn(string $number,$phone_code): string
     {
         $number = trim($number);
         $number = str_replace(' ', '', $number);
         $number = str_replace('+', '', $number);
 
-        if (str_starts_with($number, $country_code)){
-            if (str_starts_with($number, $country_code.'0'))
+        if (str_starts_with($number, $phone_code)){
+            if (str_starts_with($number, $phone_code.'0'))
                 $number = substr_replace($number, '', 3, 1);
             return $number;
         }
         $number = $number[0] === '0' ? ltrim($number, 0) : $number;
-        return $country_code.$number;
+        return $phone_code.$number;
     }
 }

@@ -21,7 +21,6 @@ class AuthController extends CommonController
     public function register(AuthRequest $request): mixed
     {
         return $this->commonOperation(function() use ($request){
-            $this->authorize('create',User::class);
             //get role
             $role=Role::where('name',$request->input('role'))->first();
             //validate request
@@ -29,9 +28,9 @@ class AuthController extends CommonController
             //country code
             $country=Country::findOrFail($validated['country_id']);
             //get msisdn
-            $validated['phone_number']=$this->getMsisdn($validated['phone_number'],$country->code);
+            $validated['phone_number']=$this->getMsisdn($validated['phone_number'],$country->phone_code);
             //create user
-            return User::create($validated)->assignRole($role->name);
+            return User::create($validated)->assignRole($role);
         },__('auth.register_success'),[],Response::HTTP_CREATED);
     }
     /**
@@ -47,7 +46,8 @@ class AuthController extends CommonController
                 throw new Exception(__('auth.failed'),Response::HTTP_BAD_REQUEST);
             }
             $user = User::where('id',Auth::id())
-                ->with(['roles','permissions']);
+                ->with(['roles','roles.permissions'])
+                ->first();
             //generate passport token
             $token = $user->createToken('RingierTokenApp')->accessToken;
             return[
