@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Listing\Property;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Requests\Listing\Property\PropertyRequest;
 use App\Models\Listing\Property\PropertyImage;
+use App\Shared\Base64Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +28,9 @@ class PropertyImagesController extends CommonController
     {
         return $this->commonOperation(function() use ($request){
             $validated = $request->validated();
+            //generate file_path
+            $file_path=Base64Upload::upload_image($validated['image'],'property');
+            $validated['image']=$file_path;
             $validated['created_by'] = Auth::id();
             return PropertyImage::create($validated);
         },__('messages.listing.property.image.store'));
