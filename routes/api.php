@@ -20,5 +20,7 @@ Route::group([],function(){
             //setting routes
             Route::prefix('setting')->group(base_path('routes/modules/setting/setting.php'));
         });
+        //properties
+        Route::prefix('property')->group(base_path('routes/modules/property/property.php'));
     });
 });

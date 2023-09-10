@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Listing\Property;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Requests\Listing\Property\PropertyRequest;
 use App\Models\Listing\Property\Property;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,7 @@ class PropertyController extends CommonController
             $validated = $request->validated();
             $validated['slug'] = $this->slugify($validated['title']);
             $validated['created_by'] = Auth::id();
+            $validated['date_online'] = Carbon::now();
             $validated['updated_by'] = Auth::id();
             //
             return Property::create($validated);
@@ -51,6 +53,11 @@ class PropertyController extends CommonController
     public function update(Request $request, string $id)
     {
         return $this->commonOperation(function() use ($request,$id){
+            if ($request->has('status') && $request->get('status') === 'INACTIVE')
+                $request->merge(['date_offline' => Carbon::now()]);
+            else
+                $request->merge(['date_offline' => null]);
+            //
             $property = Property::findOrFail($id);
             $property->update(array_filter($request->all()));
             return $property;

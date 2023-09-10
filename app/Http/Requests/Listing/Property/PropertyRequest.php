@@ -19,31 +19,25 @@ class PropertyRequest extends BaseRequest
     private function getRules(): array
     {
         $rules=[
-            'property.store'    =>[
+            'api.listing.property.store'    =>[
                 'title' => 'required|string',
-                'name' => 'required|string',
-                'slug' => 'required|string',
                 'description' => 'required|string',
-                'date_online' => 'required|date',
-                'date_offline' => 'required|date',
                 'country_id' => 'required|integer',
-                'contact_id' => 'required|integer',
                 'currency_id' => 'required|integer',
                 'category_id' => 'required|integer',
                 'price' => 'required|numeric',
-                'sale' => 'required|numeric',
                 'bedrooms' => 'required|integer',
-                'drawing_rooms' => 'required|integer',
                 'bathrooms' => 'required|integer',
                 'pool' => 'required|boolean',
                 'overview' => 'required|string',
                 'why_buy' => 'string',
+                'type'    => 'required|string|in:SALE,RENT',
             ],
-            'property.image.store'  =>[
+            'api.listing.property.image.store'  =>[
                 'property_id'   => 'required|string',
                 'image'         => 'required|string',
             ],
-            'property.inquiry.store'=>[
+            'api.listing.property.inquiry.store'=>[
                 'property_id'   => 'required|string',
                 'name'          => 'required|string',
                 'email'         => 'required|email',
@@ -56,22 +50,14 @@ class PropertyRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            'title.required'    =>__('validation.required', ['attribute' => 'name']),
-            'title.string'      =>__('validation.string', ['attribute' => 'name']),
+            'title.required'    =>__('validation.required', ['attribute' => 'title']),
+            'title.string'      =>__('validation.string', ['attribute' => 'title']),
             'name.required'     =>__('validation.required', ['attribute' => 'name']),
             'name.string'       =>__('validation.string', ['attribute' => 'name']),
-            'slug.required'     =>__('validation.required', ['attribute' => 'slug']),
-            'slug.string'       =>__('validation.string', ['attribute' => 'slug']),
             'description.required'  =>__('validation.required', ['attribute' => 'description']),
             'description.string'    =>__('validation.string', ['attribute' => 'description']),
-            'date_online.required'  =>__('validation.required', ['attribute' => 'date online']),
-            'date_online.date'      =>__('validation.date', ['attribute' => 'date online']),
-            'date_offline.required' =>__('validation.required', ['attribute' => 'date offline']),
-            'date_offline.date'     =>__('validation.date', ['attribute' => 'date offline']),
             'country_id.required'   =>__('validation.required', ['attribute' => 'country']),
             'country_id.integer'    =>__('validation.integer', ['attribute' => 'country']),
-            'contact_id.required'   =>__('validation.required', ['attribute' => 'contact']),
-            'contact_id.integer'    =>__('validation.integer', ['attribute' => 'contact']),
             'currency_id.required'  =>__('validation.required', ['attribute' => 'currency']),
             'currency_id.integer'   =>__('validation.integer', ['attribute' => 'currency']),
             'category_id.required'  =>__('validation.required', ['attribute' => 'category']),
@@ -91,6 +77,9 @@ class PropertyRequest extends BaseRequest
             'overview.required'     =>__('validation.required', ['attribute' => 'overview']),
             'overview.string'       =>__('validation.string', ['attribute' => 'overview']),
             'why_buy.string'        =>__('validation.string', ['attribute' => 'why buy']),
+            'type.required'         =>__('validation.required', ['attribute' => 'type']),
+            'type.string'           =>__('validation.string', ['attribute' => 'type']),
+            'type.in'               =>__('validation.in', ['attribute' => 'type']),
         ];
     }
 }
