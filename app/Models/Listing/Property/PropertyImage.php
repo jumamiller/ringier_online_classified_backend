@@ -19,7 +19,13 @@ class PropertyImage extends Model
         'updated_by',
         'deleted_by',
     ];
-
+    /**
+     * @desc image path URL accessor
+     */
+    public function getImagePathAttribute($value)
+    {
+        return asset('storage/'.$value);
+    }
     /**
      * @return BelongsTo
      */

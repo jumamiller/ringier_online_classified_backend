@@ -1,6 +1,20 @@
 <?php
 return [
     'listing'   => [
+        'country'   => [
+            'list'      => 'Your country list has been fetched successfully',
+            'create'    => 'Your country has been created successfully',
+            'show'      => 'Your country has been fetched successfully',
+            'update'    => 'Your country has been updated successfully',
+            'delete'    => 'Your country has been deleted successfully',
+        ],
+        'currency'  => [
+            'list'      => 'Your currency list has been fetched successfully',
+            'create'    => 'Your currency has been created successfully',
+            'show'      => 'Your currency has been fetched successfully',
+            'update'    => 'Your currency has been updated successfully',
+            'delete'    => 'Your currency has been deleted successfully',
+        ],
         'category'  => [
             'list'      => 'Your category list has been fetched successfully',
             'create'    => 'Your category has been created successfully',
