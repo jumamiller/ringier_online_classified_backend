@@ -39,7 +39,7 @@ class PropertyRequest extends BaseRequest
                 'image'         => 'required|string',
             ],
             'api.listing.property.inquiry.store'=>[
-                'property_id'   => 'required|string',
+                'property_id'   => 'required|integer',
                 'name'          => 'required|string',
                 'email'         => 'required|email',
                 'phone'         => 'required|string',
