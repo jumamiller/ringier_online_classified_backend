@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('property_id')->constrained();
             $table->string('image_path');
-            $table->boolean('is_featured');
+            $table->boolean('is_featured')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('deleted_by')->nullable()->constrained('users');

@@ -34,7 +34,8 @@ class PropertyRequest extends BaseRequest
                 'type'    => 'required|string|in:SALE,RENT',
             ],
             'api.listing.property.image.store'  =>[
-                'property_id'   => 'required|string',
+                'property_id'   => 'required|integer',
+                'is_featured'   => 'required|boolean',
                 'image'         => 'required|string',
             ],
             'api.listing.property.inquiry.store'=>[

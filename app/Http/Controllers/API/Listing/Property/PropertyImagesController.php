@@ -30,7 +30,7 @@ class PropertyImagesController extends CommonController
             $validated = $request->validated();
             //generate file_path
             $file_path=Base64Upload::upload_image($validated['image'],'property');
-            $validated['image']=$file_path;
+            $validated['image_path']=$file_path;
             $validated['created_by'] = Auth::id();
             return PropertyImage::create($validated);
         },__('messages.listing.property.image.store'));
