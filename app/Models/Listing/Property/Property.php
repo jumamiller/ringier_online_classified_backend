@@ -2,8 +2,13 @@
 
 namespace App\Models\Listing\Property;
 
+use App\Models\Auth\User;
+use App\Models\Country\Country;
+use App\Models\Currency\Currency;
+use App\Models\Listing\Category\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
@@ -31,22 +36,69 @@ class Property extends Model
         'updated_by',
         'deleted_by',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function contact()
+    {
+        return $this->belongsTo(User::class,'created_by');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function inquiries()
+    {
+        return $this->hasMany(PropertyInquiry::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany(PropertyImage::class);
+    }
+
+    /**
+     * @param $query
+     * @param array $filters
+     * @return void
+     */
     public function scopeFilterBy($query, array $filters)
     {
-        $query->when($filters['search'] ?? null, function ($query, $search) use ($filters) {
+        return $query->when($filters['q'] ?? null, function ($query, $search) use ($filters) {
             $query->where('title', 'like', '%'.$search.'%')
                 ->orWhere('slug', 'like', '%'.$search.'%')
                 ->orWhere('description', 'like', '%'.$search.'%')
                 ->orWhere('date_online', 'like', '%'.$search.'%')
                 ->orWhere('date_offline', 'like', '%'.$search.'%')
                 ->orWhere('country_id', 'like', '%'.$search.'%')
-                ->orWhere('contact_id', 'like', '%'.$search.'%')
                 ->orWhere('currency_id', 'like', '%'.$search.'%')
                 ->orWhere('category_id', 'like', '%'.$search.'%')
                 ->orWhere('price', 'like', '%'.$search.'%')
-                ->orWhere('sale', 'like', '%'.$search.'%')
                 ->orWhere('bedrooms', 'like', '%'.$search.'%')
-                ->orWhere('drawing_rooms', 'like', '%'.$search.'%')
                 ->orWhere('bathrooms', 'like', '%'.$search.'%')
                 ->orWhere('pool', 'like', '%'.$search.'%')
                 ->orWhere('overview', 'like', '%'.$search.'%')
@@ -63,9 +115,18 @@ class Property extends Model
                 })
                 ->orWhereHas('category', function ($query) use ($search) {
                     $query->where('name', 'like', '%'.$search.'%');
-                })
-                ->orderBy($filters['sort_by']??'created_at', $filters['order'] ?? 'asc')
-                ->paginate($filters['per_page'] ?? 10);
-        });
+                });
+        })
+            ->orderBy($filters['sort_by']??'created_at', $filters['order'] ?? 'asc')
+            ->with([
+                'country:id,name',
+                'currency:id,name,symbol',
+                'category:id,name',
+                'category.sub_categories:id,category_id,name',
+                'contact:id,name,email,phone_number',
+                'inquiries:id,property_id,name,email,phone,message',
+                'images:id,property_id,image_path',
+            ])
+            ->paginate($filters['per_page'] ?? 10);
     }
 }

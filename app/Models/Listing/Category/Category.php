@@ -20,6 +20,10 @@ class Category extends Model
         'meta_description',
         'meta_keywords',
     ];
+    public function sub_categories()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
     /**
      * @param $query
      * @param array $filters
