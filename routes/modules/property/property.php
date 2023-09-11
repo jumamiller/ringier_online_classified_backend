@@ -9,11 +9,16 @@ Route::group([],function(){
     //property listing
     Route::apiResource('listings',PropertyController::class)->names([
         'index'     =>  'api.listing.property.index',
-        'store'     =>  'api.listing.property.store',
         'show'      =>  'api.listing.property.show',
-        'update'    =>  'api.listing.property.update',
-        'destroy'   =>  'api.listing.property.destroy',
-    ]);
+    ])->only(['show','index']);
+    //authenticated property listing
+    Route::group(['middleware'=>'auth:api'],function (){
+        Route::apiResource('listings',PropertyController::class)->names([
+            'store'     =>  'api.listing.property.store',
+            'update'    =>  'api.listing.property.update',
+            'destroy'   =>  'api.listing.property.destroy',
+        ])->only(['store','update','destroy']);
+    });
     //property image listing
     Route::apiResource('files',PropertyImagesController::class)->names([
         'index'     =>  'api.listing.property.image.index',
@@ -32,3 +37,4 @@ Route::group([],function(){
     ]);
 
 });
+
