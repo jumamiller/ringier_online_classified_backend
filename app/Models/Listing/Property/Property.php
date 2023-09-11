@@ -50,7 +50,7 @@ class Property extends Model
      */
     public function contact()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class,'created_by','id');
     }
 
     /**
@@ -128,5 +128,25 @@ class Property extends Model
                 'images:id,property_id,image_path',
             ])
             ->paginate($filters['per_page'] ?? 10);
+    }
+
+    /**
+     * @param $query
+     * @param string $slug
+     * @return mixed
+     */
+    public function scopeGetBySlug($query, string $slug)
+    {
+        return $query->where('slug',$slug)
+            ->with([
+                'country:id,name',
+                'currency:id,name,symbol',
+                'category:id,name',
+                'category.sub_categories:id,category_id,name',
+                'contact:id,name,email,phone_number',
+                'inquiries:id,property_id,name,email,phone,message',
+                'images:id,property_id,image_path',
+            ])
+            ->firstOrFail();
     }
 }

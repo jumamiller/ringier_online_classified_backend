@@ -40,10 +40,10 @@ class PropertyController extends CommonController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        return $this->commonOperation(function() use ($id){
-            return Property::findOrFail($id);
+        return $this->commonOperation(function() use ($slug){
+            return Property::getBySlug($slug);
         },__('messages.listing.property.show'));
     }
 
