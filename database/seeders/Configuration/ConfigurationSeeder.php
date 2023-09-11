@@ -4,6 +4,7 @@ namespace Database\Seeders\Configuration;
 
 use App\Models\Country\Country;
 use App\Models\Currency\Currency;
+use App\Models\Listing\Category\Category;
 use Illuminate\Database\Seeder;
 
 class ConfigurationSeeder extends Seeder
@@ -95,6 +96,16 @@ class ConfigurationSeeder extends Seeder
             'phone_code'=>'230',
             'currency_id'=>6,
             'status'=>'ACTIVE'
+        ]);
+        //category
+        Category::create([
+            'name'      => 'Property',
+            'slug'      => 'property',
+            'description'=>'Property',
+            'status'    => 'ACTIVE',
+            'meta_title'=>'Property',
+            'meta_description'=>'Property',
+            'meta_keywords' => 'Property',
         ]);
     }
 }
