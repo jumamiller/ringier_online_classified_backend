@@ -23,6 +23,9 @@
 - Run `docker-compose exec ringier-classified-backend-app php artisan key:generate`
 - Run `docker-compose exec ringier-classified-backend-app php artisan config:cache`
 - Run `docker-compose exec ringier-classified-backend-app php artisan db:seed`
+- Run `docker-compose exec ringier-classified-backend-app php artisan storage:link`
+- Run `docker-compose exec ringier-classified-backend-app php artisan passport:install`
+- configure your `.env` file to use the database credentials in the `docker-compose.yml` file
 - Run `docker-compose exec ringier-classified-backend-app php artisan migrate`
 - Visit `http://localhost:8000/api/v1/` is your base API URL
 
